@@ -1,0 +1,50 @@
+docker 명령어
+
+docker run 이미지를 다운, 컨테이너 실행
+	-i: 터미널에 키보드 연결
+	-t: 특수키 사용 가능
+	-d: 백그라운드에서 실행
+	-p: 포트 설정
+	--name: 컨테이너 이름
+
+컨테이너 목록
+docker ps : 실행 중인 컨테이너 확인
+	-a: 종료된 컨테이너까지 모두
+
+컨테이너 중지/실행
+docker [start or stop] [CONTAINER ID or NAME]
+
+컨테이너 삭제
+docker rm [CONTAINER ID or NAME]
+
+컨테이너에 명령어 실행
+docker exec
+
+이미지 삭제
+docker image ls
+docker images
+docker image rm [이미지이름]
+================================================================
+도커 이미지로부터 컨테이너 생성!
+ubuntu
+centos
+httpd
+mysql
+nginx
+위와 같은 이미지들을 컨테이너로 구동하고 중지/재시작/삭제 등등 해보기
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

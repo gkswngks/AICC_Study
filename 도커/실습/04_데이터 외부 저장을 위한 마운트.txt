@@ -1,0 +1,81 @@
+볼륨 마운트(도커에서 권장)
+	별도의 하드디스크 영역을 컨테이너가 관리하게 만드는 방식
+	임시목적 또는 자주 사용하지 않으나 지워지면 안되는 파일을 저장하는 목적으로 많이 사용
+	
+바인드 마운트
+	도커가 설치된 컴퓨터의 문서 폴더 또는 바탕화면 폴더 등을 컨테이너에 연결하는 방식
+	디렉터리뿐만 아니라 파일단위 마운트 가능
+	자주 사용하는 파일을 저장하는 목적으로 많이 사용
+
+
+※ 바인드 마운트 해보기
+	1. 폴더 생성
+	2. 아파치 컨테이너 생성
+	3. 초기화면 확인
+	4. index.html파일을 배치
+	5. 확인
+
+1. 폴더 생성
+	mkdir exdir
+	ls
+
+2. 아파치 컨테이너 생성(바인드 마운트)
+	docker run --name mysite -d -p 8080:80 -v ./exdir/:/usr/local/apache2/htdocs/ httpd
+
+3. 브라우저에서 localhost:8080 요청
+	초기화면 확인(It Works! 안나옴)
+
+4. index.html파일을 배치
+	기존에 만들어둔 index.html 파일을 exdir폴더에 복사
+
+5. 브라우저에서 localhost:8080 요청하여 페이지 변경 확인
+
+6. 컨테이너 종료 및 삭제하기
+
+※ 볼륨 마운트 해보기
+	1. 볼륨 생성
+	2. 아파치 컨테이너 생성 및 볼륨 마운트
+	3. 볼륨 내용 확인 및 수정해보기
+	4. 컨테이너 삭제 후 새 컨테이너 생성(볼륨 마운트)
+
+1. 볼륨 생성(볼륨이 생성되는 위치는 도커 엔진이 관리함)
+
+- 볼륨 목록 확인
+ > docker volume ls
+
+- 볼륨 생성
+ > docker volume create myvol
+
+- 생성된 볼륨 정보 확인
+ > docker volume inspect myvol
+
+2. 아파치 컨테이너 생성 및 볼륨 마운트
+ > docker run --name mysite -d -p 8080:80 -v myvol:/usr/local/apache2/htdocs httpd
+
+- 컨테이너 정보 확인(마운트 정보 확인)
+ > docker container inspect mysite
+
+3. 볼륨 내용 확인 및 수정해보기
+- 현재 기본 페이지 내용 확인 (index.html)
+
+- 컨테이너의 bash shell 실행
+ > docker exec -it mysite bash
+
+- htdocs 디렉터리에 index.html 파일내용 수정하기
+ > echo hello > index.html
+
+웹 브라우저에서 새로고침하여 변경된 정보 확인
+
+4. 컨테이너 삭제 후 새 컨테이너 생성(볼륨 마운트)
+- 컨테이너 종료 및 삭제
+ > docker stop mysite
+ > docker rm mysite
+
+- 볼륨 확인
+ > docker volume ls
+
+- 새 컨테이너 실행(볼륨 마운트)
+ > docker run --name mysite2 -d -p 8090:80 -v myvol:/usr/local/apache2/htdocs httpd
+
+- 브라우저로 요청 확인하면 변경했던 내용이 유지되는 것을 확인
+

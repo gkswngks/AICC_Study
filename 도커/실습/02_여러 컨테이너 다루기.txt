@@ -1,0 +1,89 @@
+워드프레스 컨테이너+ MySQL 컨테이너 연동하기
+
+※작업 순서
+1. 네트워크생성
+2. MySQL 컨테이너 생성
+3. Wordpress 컨테이너 생성
+4. 컨테이너와 네트워크 확인
+5. 정리
+
+	네트워크 이름: mynet
+	MySQL 컨테이너 이름: mydb
+	MySQL 이미지 이름: mysql
+	워드프레스 컨테이너 이름: mywordpress
+	워드프레스 이미지 이름: wordpress
+
+※작업 내용
+1. 네트워크 생성
+	docker network create mynet
+	확인
+	docker network ls
+
+2. MySQL 컨테이너 생성
+docker run --name mydb -dit --net=mynet -p 3306:3306 \
+-e MYSQL_ROOT_PASSWORD=1234 \
+-e MYSQL_DATABASE=myblog \
+-e MYSQL_USER=wuser \
+-e MYSQL_PASSWORD=1234 \
+mysql \
+--character-set-server=utf8mb4 \
+--collation-server=utf8mb4_unicode_ci
+
+3. Wordpress 컨테이너 생성
+docker run --name mywordpress -dit --net=mynet \
+-p 8080:80 \
+-e WORDPRESS_DB_HOST=mydb \
+-e WORDPRESS_DB_NAME=myblog \
+-e WORDPRESS_DB_USER=wuser \
+-e WORDPRESS_DB_PASSWORD=1234 \
+wordpress
+
+4. 컨테이너와 네트워크 확인
+docker ps
+웹 브라우저에서 localhost:8080 접속
+	워드프레스 설치!
+
+5. 정리하기(컨테이너, 이미지, 네트워크)
+docker stop mywordpress
+docker stop mydb
+
+docker rm mywordpress
+docker rm mydb
+
+docker image ls
+docker image rm wordpress
+docker image rm mysql
+
+docker network rm mynet
+docker network ls
+
+[실습]워드프레스 + mariadb 구성해보기
+	네트워크 이름: mynet2
+	MARIADB 컨테이너 이름: mydb2
+	MARIADB 이미지 이름: mariadb
+	워드프레스 컨테이너 이름: mywordpress2
+	워드프레스 이미지 이름: wordpress
+
+네트워크 생성
+docker network create mynet2
+
+mariadb 컨테이너 실행
+docker run --name mydb2 -dit --net=mynet2 -p 3307:3306 \
+-e MYSQL_ROOT_PASSWORD=1234 \
+-e MYSQL_DATABASE=myblog2 \
+-e MYSQL_USER=wuser \
+-e MYSQL_PASSWORD=1234 \
+mariadb \
+--character-set-server=utf8mb4 \
+--collation-server=utf8mb4_unicode_ci
+
+wordpress 컨테이너 실행
+docker run --name mywordpress2 -dit --net=mynet2 \
+-p 8090:80 \
+-e WORDPRESS_DB_HOST=mydb2 \
+-e WORDPRESS_DB_NAME=myblog2 \
+-e WORDPRESS_DB_USER=wuser \
+-e WORDPRESS_DB_PASSWORD=1234 \
+wordpress
+
+접속 테스트하기
