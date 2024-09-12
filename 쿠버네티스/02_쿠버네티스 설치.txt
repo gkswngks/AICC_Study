@@ -1,0 +1,22 @@
+설치하기
+https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download
+
+다운로드 및 설치
+$ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+$ sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+
+클러스터 시작
+$ minikube start
+
+kubectl 설치
+$ kubectl
+
+모든 파드 확인
+$ minikube kubectl -- get po -A
+
+명령어 편의를 위해 알리아스 등록
+$ alias kubectl="minikube kubectl --"
+
+웹을 통해 접속하여 대시보드 확인
+$ minikube dashboard
+
