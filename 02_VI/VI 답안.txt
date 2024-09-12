@@ -1,0 +1,40 @@
+작업 위치 : /backup/
+위 위치에서 vi 툴 실행.
+
+1. ~/backup/ 디렉터리  안에 있는 내용을 다 삭제하시오
+	:! rm ~/backup/*
+
+2. /etc/inittab, /etc/login.defs, /etc/passwd 파일을 ~/backup/ 디렉터리에 복사하시오
+	:! cp /etc/inittab /etc/login.defs /etc/passwd ~/backup
+
+3. ~/dir0/dir1/ 디렉터리 생성
+	:!mkdir -p ~/dir0/dir1
+
+4. ~/backup/ 안에 내용을 ~/dir0/dir1/ 로 복사
+	:!cp ~/backup/* ~/dir0/dir1
+
+5. ~/backup/login.defs 파일과 ~/dir0/dir1/passwd 파일을 merge 파일로 병합
+	:!cat ~/backup/login.defs ~/dir0/dir1/passwd > ./merge
+
+6. ~/dir0/dir1/login.defs 을 열어 PASS 를 STILL 로 치환
+	:e ~/dir0/dir1/login.defs
+	:%s/PASS/STILL/g
+	또는
+	:set nu
+	:1,72s/PASS/STILL/g
+
+7. login.defs 15줄 아래 ~/backup/ 디렉터리 목록 출력 내용 삽입
+	15번째 줄에서...o입력후 esc키 입력
+	:.!ls -l ~/backup
+
+8. login.defs 제일 마지막 줄에 /etc/passwd 내용 추가
+	:.!cat /etc/passwd
+
+9. 지금까지 작업 했던 내용을 ~/backup/testfile1으로 저장
+	:w ~/backup/testfile1
+
+10. ~/backup/inittab 파일을 열어 16줄 아래 행 추가 후 hello world 입력
+	16번째 줄에서 o 입력 후 편집.
+
+11. 파일 저장 후 종료.
+	:wq
