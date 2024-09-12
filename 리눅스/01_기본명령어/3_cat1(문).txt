@@ -1,0 +1,11 @@
+1. cat 명령어로 ~/cattest 파일에  1234 내용을 넣으세요.
+
+2. ~/cattest의 파일 내용을 읽어보세요.
+
+3. ~/cattest의 내용을  ~/testcat으로 옮겨보세요. (Redirection 사용)
+
+4. ~/testcat에 1234 내용을 추가하세요.
+
+5. ~/cattest의 내용을 ~/testcat에 추가하세요.
+
+6. ~/testcat의 내용을 행번호와 같이 출력하세요.
